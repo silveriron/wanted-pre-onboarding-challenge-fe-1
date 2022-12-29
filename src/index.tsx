@@ -9,6 +9,7 @@ import '@fontsource/roboto/700.css';
 import './index.css';
 import Auth from './routers/Auth';
 import Main from './routers/Main';
+import styled from '@emotion/styled';
 
 const router = createBrowserRouter([
   {
@@ -21,13 +22,20 @@ const router = createBrowserRouter([
   }
 ])
 
+const RootContainer = styled.div`
+  width: 400px;
+  height: 800px;
+  background-color: rgb(241, 249, 255);
+  border-radius: 4px;
+`
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <div className='root-container'>
+    <RootContainer>
     <RouterProvider router={router} />
-    </div>
+    </RootContainer>
   </React.StrictMode>
 );
