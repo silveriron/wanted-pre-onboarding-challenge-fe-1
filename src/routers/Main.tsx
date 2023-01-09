@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
-import Todo from '../components/Todo/Todo'
+import TodoPage from '../components/TodoPage/TodoPage'
 
 const Main = () => {
 
@@ -16,7 +16,7 @@ const Main = () => {
   
 
   return (
-    <Todo/>
+    <TodoPage/>
   )
 }
 

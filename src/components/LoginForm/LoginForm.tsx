@@ -1,9 +1,8 @@
 import styled from '@emotion/styled'
-import { Typography } from '@mui/material'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
+import { Typography, Button, TextField } from '@mui/material'
 import {useNavigate, useLocation} from 'react-router-dom'
 import React, {useEffect, useState} from 'react'
+
 import useInput from '../../hooks/useInput'
 import { login, signup } from '../../lib/api/auth'
 
@@ -59,10 +58,13 @@ const LoginForm = () => {
         e.preventDefault()
         if (formState) {
             const res = await signup(email, password)
+            // res ? window.location.href='/' : setIsError(true)
             res ? navigate('/') : setIsError(true)
         } else {
             const res = await login(email, password)
-            res ? navigate('/')  : setIsError(true)
+            // res ? window.location.href='/'  : setIsError(true)
+            res ? navigate('/') : setIsError(true)
+
             }
     }
   return (

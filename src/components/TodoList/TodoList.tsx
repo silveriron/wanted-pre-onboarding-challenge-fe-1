@@ -1,34 +1,20 @@
-import React, {useState, useEffect} from 'react'
-import { getTodos } from '../../lib/api/todo'
+import { List, Typography } from '@mui/material'
 import TodoItem from '../TodoItem/TodoItem'
+import { Todo } from '../TodoPage/TodoPage'
 
-type Todo = {
-  id: string,
-  title: string,
-  content: string,
-  createdAt: string
+interface TodoListProps {
+  todos: Todo[]
 }
 
 
-const TodoList = () => {
-  const [todos, setTodos] = useState<Todo[]>([])
-
-
-  useEffect(() => {
-    const help = async () => {
-      const res = await getTodos() 
-      setTodos(res?.data.data)
-    }
-    help()
-    
-  }, [setTodos])
+const TodoList = ({todos}: TodoListProps) => {
 
   return (
-    <ul>
+    <List  sx={{ width: '100%', maxWidth: 330, margin: 'auto', }}>
     {
-      todos.map((todo) => <TodoItem key={todo.id} title={todo.title} content={todo.content} createAt={todo.createdAt} />)
-    }
-    </ul>
+      todos.length > 0 ? todos.map((todo) => <TodoItem key={todo.id} id={todo.id} title={todo.title} content={todo.content} createAt={todo.createdAt} />)
+    : <Typography variant='body1' sx={{textAlign: "center"}}>할 일 목록이 없습니다.</Typography>}
+    </List>
   )
 }
 

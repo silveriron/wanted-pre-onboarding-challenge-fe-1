@@ -5,7 +5,7 @@ const API_URL = "http://localhost:8080";
 const serverErrMsg =
   "서버에 알 수 없는 문제가 발생했습니다. 잠시 후에 다시 시도해주세요.";
 
-const errorHandler = (e: any) => {
+export const errorHandler = (e: any) => {
   if (e.response) {
     return false;
   } else {
@@ -32,6 +32,7 @@ export const signup = async (email: string, password: string) => {
       email,
       password,
     });
+    localStorage.setItem("token", res.data.token);
     return res;
   } catch (e) {
     errorHandler(e);

@@ -5,7 +5,8 @@ const useInput = (
 ): [
   string,
   (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
-  boolean
+  boolean,
+  React.Dispatch<React.SetStateAction<string>>
 ] => {
   const [value, setValue] = useState<string>("");
   const [isValid, setIsValid] = useState(false);
@@ -19,7 +20,7 @@ const useInput = (
     }
   };
 
-  return [value, onChange, isValid];
+  return [value, onChange, isValid, setValue];
 };
 
 export default useInput;

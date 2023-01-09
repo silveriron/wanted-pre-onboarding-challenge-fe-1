@@ -10,6 +10,7 @@ import './index.css';
 import Auth from './routers/Auth';
 import Main from './routers/Main';
 import styled from '@emotion/styled';
+import TodoDetail from './components/TodoDetail/TodoDetail';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: '/auth',
     element: <Auth/>,
+  },
+  {
+    path: '/todo/:id',
+    element: <TodoDetail/>
   }
 ])
 
