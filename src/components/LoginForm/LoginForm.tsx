@@ -53,6 +53,7 @@ const LoginForm = () => {
         <Typography variant='body1'>{formState ? "가입 정보를 입력해주세요." : "로그인을 해주세요."}</Typography>
         <TextField error={isError}  onChange={onChangeEmail} value={email} type="email" label="이메일" size="small" variant='outlined' />
         <TextField error={isError} onChange={onChangePassword} value={password}  label="비밀번호" size="small" type="password" variant='outlined' />
+        {!isError && <Typography variant='subtitle2'>비밀번호 길이 9자 이상 입력해주세요.</Typography>}
         {isError && <Typography variant='body1' sx={{color: 'red', textAlign: 'center'}}>{formState ?"이미 가입한 이메일입니다." :   "입력 정보를 확인해주세요."}</Typography>}
         <Button disabled={ !isValidEmail || !isValidPassword } type="submit" >{formState ? "회원가입" : "로그인"}</Button>
         <Button type='button' onClick={onChangeState}>{formState ? "로그인하러가기": "가입하러가기"}</Button>
