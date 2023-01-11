@@ -1,17 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080";
-
-const serverErrMsg =
-  "서버에 알 수 없는 문제가 발생했습니다. 잠시 후에 다시 시도해주세요.";
-
-export const errorHandler = (e: any) => {
-  if (e.response) {
-    return false;
-  } else {
-    alert(serverErrMsg);
-  }
-};
+import { API_URL } from "../../constant/api";
+import { errorHandler } from "./errorHandler";
 
 export const login = async (email: string, password: string) => {
   try {
@@ -21,7 +11,7 @@ export const login = async (email: string, password: string) => {
     });
     localStorage.setItem("token", res.data.token);
     return res;
-  } catch (e: any) {
+  } catch (e) {
     errorHandler(e);
   }
 };

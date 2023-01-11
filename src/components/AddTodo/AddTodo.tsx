@@ -1,10 +1,11 @@
 import styled from '@emotion/styled'
 import { TextField, Button, Typography, Dialog } from '@mui/material'
-import React, {useEffect} from 'react'
+import LoadingButton from '@mui/lab/LoadingButton';
+import React, {useEffect, useRef} from 'react'
+import { useCreateTodo, useUpdateTodo } from '../../hooks/todos/useTodoQuery'
 
 import useInput from '../../hooks/useInput'
-import { createTodo, putTodos } from '../../lib/api/todo'
-import { Todo } from '../TodoPage/TodoPage'
+import { Todo } from '../../types/todo'
 
 const Form = styled.form`
   width: 300px;
@@ -19,14 +20,14 @@ const Form = styled.form`
 interface AppTodoProps {
   isAddModal: boolean,
   setIsAddModal: React.Dispatch<React.SetStateAction<boolean>>,
-  setIsLatest: React.Dispatch<React.SetStateAction<boolean>>,
   todo?: Todo
 }
 
-const AddTodo = ({isAddModal, setIsAddModal, setIsLatest, todo}: AppTodoProps) => {
+const AddTodo = ({isAddModal, setIsAddModal, todo}: AppTodoProps) => {
   const [title, onChangeTitle, titleValid, setTitle] =  useInput()
   const [content, onChangeContent, contentValid, setContent] =  useInput()
-  const isEdit = !!todo
+  const updateTodo = useUpdateTodo()
+  const createTodo = useCreateTodo()
 
   useEffect(()=> {
     if (todo) {
@@ -35,34 +36,33 @@ const AddTodo = ({isAddModal, setIsAddModal, setIsLatest, todo}: AppTodoProps) =
     }
   }, [todo, setContent, setTitle])
 
-
   const onClickClose = () => setIsAddModal(false)
 
   const onSubmitTodo = async (e:React.FormEvent) => {
     e.preventDefault();
-    if (isEdit) {
-        const res = await putTodos(todo!.id, title, content)
-        if (res) {
-          setIsLatest(false)
-          onClickClose()
-        }
-    } else {
-
-      const res = await createTodo(title, content)
-      if (res) {
-        setIsLatest(false)
-        onClickClose()
+    if (todo) {
+      const updateConfirm = window.confirm('정말 수정하시겠습니까?')
+      if (!updateConfirm) {
+        return
       }
-    }
-  }
+        updateTodo.mutate({id: todo!.id, title, content})
 
+
+    } else {
+      createTodo.mutate({title, content})
+    }
+    setContent("")
+    setTitle("")
+    onClickClose()
+  }
+  
   return (
     <Dialog onClose={onClickClose} open={isAddModal} >
     <Form onSubmit={onSubmitTodo}>
       <Typography variant='h2' sx={{fontWeight: "bold", textAlign: 'center', fontSize: '1.5rem'}} >Add Todo</Typography>
-      <TextField onChange={onChangeTitle} size='small' variant='outlined' type="text" label="할 일" value={title} />
+       <TextField onChange={onChangeTitle} size='small' variant='outlined' type="text" label="할 일" value={title} />
       <TextField onChange={onChangeContent}  size='small' variant='outlined' type="text" label="내용" value={content} />
-      <Button type="submit" variant="contained" >등록</Button>
+      {createTodo.isLoading ? <LoadingButton loading >등록</LoadingButton> : <Button type="submit" variant="contained" >등록</Button>}
       <Button onClick={onClickClose} type='button' variant="outlined" >취소</Button>
     </Form>
     </Dialog>

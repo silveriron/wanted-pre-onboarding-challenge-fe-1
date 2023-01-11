@@ -1,19 +1,12 @@
 import styled from '@emotion/styled'
 import { IconButton, Typography } from '@mui/material'
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-
-import { deleteTodo, getTodo } from '../../lib/api/todo'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AddTodo from '../AddTodo/AddTodo'
 
-type Todo = {
-    id: string,
-    title: string,
-    content: string,
-    createdAt: string
-  }
+import AddTodo from '../AddTodo/AddTodo'
+import { useDeleteTodo, useGetTodo } from '../../hooks/todos/useTodoQuery'
 
   const Main = styled.main`
   overflow-y: scroll;
@@ -32,42 +25,44 @@ const TodoDetail = () => {
     const navigate = useNavigate()
     const {id} = useParams()
     const [isAddModal, setIsAddModal] = useState(false)
-    const [isLatest, setIsLatest] = useState(true)
-    const [todo, setTodo] = useState<Todo>({id: "", title: "", content: "", createdAt: ""})
+    const {data: todo, isLoading, isError} = useGetTodo(id!)
+    const deleteTodo = useDeleteTodo()
 
-    useEffect(() => {
-        const help = async() => {
-            if (id) {
-                const res = await getTodo(id)
-                setTodo(res?.data.data)
 
-            }
-        }
-        help()
-    }, [setTodo, id, isLatest])
-
-    const onClickEdit = () => {
-      setIsAddModal(true)
+    if (isError) {
+      return <h1>Error</h1>
     }
 
-    const onClickDelete = async () => {
-      const res = await deleteTodo(todo.id)
-      if (res) {
-        navigate('/')
+    if (isLoading) {
+      return <h1>Loading</h1>
+    }
+
+
+      const onClickEdit = () => {
+        setIsAddModal(true)
       }
+
+    const onClickDelete = async () => {
+      const updateConfirm = window.confirm('정말 삭제하시겠습니까?')
+      if (!updateConfirm) {
+        return
+      }
+      deleteTodo.mutate(todo!.id)
+        navigate('/')
+
     }
 
   return (
     <Main>
-        <Typography variant='h1' sx={{fontSize: "2rem", fontWeight: 'bold', textAlign: 'center', paddingTop: 10}} >{todo.title}
+      <Typography variant='h1' sx={{fontSize: "2rem", fontWeight: 'bold', textAlign: 'center', paddingTop: 10}} >{todo?.title}
     </Typography>
-    <AddTodo setIsLatest={setIsLatest} isAddModal={isAddModal} setIsAddModal={setIsAddModal} todo={todo}/>
+    <AddTodo isAddModal={isAddModal} setIsAddModal={setIsAddModal} todo={todo}/>
     <ButtonDiv>
         <IconButton color='primary' onClick={onClickEdit}><EditIcon/></IconButton>
         <IconButton color='primary' onClick={onClickDelete}><DeleteIcon/></IconButton>
     </ButtonDiv>
     <Typography variant='body1'sx={{textAlign: "center"}} >
-      {todo.content}
+      {todo?.content}
     </Typography>
     </Main>
   )

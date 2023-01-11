@@ -1,12 +1,9 @@
 import axios from "axios";
-import { errorHandler } from "./auth";
 
-const API_URL = "http://localhost:8080";
-
-const getToken = () => {
-  const token = localStorage.getItem("token");
-  return token;
-};
+import { errorHandler } from "./errorHandler";
+import { API_URL, AUTH_KEY } from "../../constant/api";
+import { getToken } from "./getToken";
+import { Todo, TodoResponse, TodosResponse } from "../../types/todo";
 
 export const createTodo = async (title: string, content: string) => {
   try {
@@ -20,7 +17,7 @@ export const createTodo = async (title: string, content: string) => {
       },
       {
         headers: {
-          Authorization: token,
+          [AUTH_KEY]: token,
         },
       }
     );
@@ -30,7 +27,7 @@ export const createTodo = async (title: string, content: string) => {
   }
 };
 
-export const putTodos = async (id: string, title: string, content: string) => {
+export const putTodo = async (id: string, title: string, content: string) => {
   try {
     const token = getToken();
 
@@ -42,7 +39,7 @@ export const putTodos = async (id: string, title: string, content: string) => {
       },
       {
         headers: {
-          Authorization: token,
+          [AUTH_KEY]: token,
         },
       }
     );
@@ -58,7 +55,7 @@ export const deleteTodo = async (id: string) => {
 
     const res = await axios.delete(API_URL + `/todos/${id}`, {
       headers: {
-        Authorization: token,
+        [AUTH_KEY]: token,
       },
     });
 
@@ -68,32 +65,25 @@ export const deleteTodo = async (id: string) => {
   }
 };
 
-export const getTodos = async () => {
-  try {
-    const token = getToken();
+export const getTodos = async (): Promise<Todo[]> => {
+  const token = getToken();
 
-    const res = await axios.get(API_URL + "/todos", {
-      headers: {
-        Authorization: token,
-      },
-    });
-    return res;
-  } catch (e) {
-    errorHandler(e);
-  }
+  const res = await axios.get(API_URL + "/todos", {
+    headers: {
+      [AUTH_KEY]: token,
+    },
+  });
+  return res.data.data;
 };
 
-export const getTodo = async (id: string) => {
-  try {
-    const token = getToken();
+export const getTodo = async (id: string): Promise<Todo> => {
+  const token = getToken();
 
-    const res = await axios.get(API_URL + `/todos/${id}`, {
-      headers: {
-        Authorization: token,
-      },
-    });
-    return res;
-  } catch (e) {
-    errorHandler(e);
-  }
+  const res = await axios.get(API_URL + `/todos/${id}`, {
+    headers: {
+      [AUTH_KEY]: token,
+    },
+  });
+
+  return res.data.data;
 };

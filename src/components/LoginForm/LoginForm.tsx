@@ -5,6 +5,7 @@ import React, {useEffect, useState} from 'react'
 
 import useInput from '../../hooks/useInput'
 import { login, signup } from '../../lib/api/auth'
+import { validEmail, validPassword } from '../../lib/valid'
 
 const Form = styled.form`
     width: 80%;
@@ -14,37 +15,18 @@ const Form = styled.form`
     flex-direction: column;
     gap: 20px;
 `
-
-const validEmail = (value: string) => {
-    if (!value.includes('@') || !value.includes('.') ) {
-        return false
-    } else {
-        return true
-    }
-}
-
-const validPassword = (value: string) => {
-    if (value.length < 9) {
-        return false
-    } else {
-        return true
-    }
-}
-
 const LoginForm = () => {
     const [email, onChangeEmail, isValidEmail] = useInput(validEmail)
     const [password, onChangePassword, isValidPassword] = useInput(validPassword)
     const [isError, setIsError] = useState(false)
+    const navigate = useNavigate()
+    const {search} = useLocation()
 
     useEffect(() => {
         setIsError(false)
     }, [email, password])
 
-    const {search} = useLocation()
-
     const formState = search.split("?")[1] === "signup"
-
-    const navigate = useNavigate()
 
     const onChangeState = () => {
         if (formState) {
@@ -58,15 +40,13 @@ const LoginForm = () => {
         e.preventDefault()
         if (formState) {
             const res = await signup(email, password)
-            // res ? window.location.href='/' : setIsError(true)
             res ? navigate('/') : setIsError(true)
         } else {
             const res = await login(email, password)
-            // res ? window.location.href='/'  : setIsError(true)
             res ? navigate('/') : setIsError(true)
-
             }
     }
+
   return (
     <Form onSubmit={onSubmit}>
         <Typography sx={{fontSize: "1.5rem", fontWeight: 'bold'}} variant='h1'>안녕하세요. Todo앱 입니다.</Typography>
