@@ -21,5 +21,5 @@ api url, key값 등 언제든 바뀔 수 있고, 중복되서 사용되는 것�
   
 나는 아는데 타입스크립트는 몰라줘서 답답한 마음에 사용했던 타입 단언(!)을 타입 추론을 통해서 없앨 수 있도록 리팩토링 했습니다.
 
-데모 페이지 : ec2-15-164-99-122.ap-northeast-2.compute.amazonaws.com  
+데모 페이지 : http://ec2-15-164-99-122.ap-northeast-2.compute.amazonaws.com  
 localhost를 벗어나보라고 하셔서 배포를 해봤습니다.
