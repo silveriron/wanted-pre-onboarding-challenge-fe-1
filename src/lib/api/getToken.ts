@@ -7,5 +7,5 @@ export const getToken = () => {
 
 export const removeToken = () => {
   localStorage.removeItem(ACCESS_TOKEN_KEY);
-  window.location.replace("/auth");
+  window.location.replace("/");
 };

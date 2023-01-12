@@ -3,7 +3,7 @@ import axios from "axios";
 import { errorHandler } from "./errorHandler";
 import { API_URL, AUTH_KEY } from "../../constant/api";
 import { getToken } from "./getToken";
-import { Todo, TodoResponse, TodosResponse } from "../../types/todo";
+import { Todo } from "../../types/todo";
 
 export const createTodo = async (title: string, content: string) => {
   try {
@@ -73,7 +73,7 @@ export const getTodos = async (): Promise<Todo[]> => {
       [AUTH_KEY]: token,
     },
   });
-  return res.data.data;
+  return res.data.data.reverse();
 };
 
 export const getTodo = async (id: string): Promise<Todo> => {
