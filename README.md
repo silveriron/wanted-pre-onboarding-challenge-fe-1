@@ -30,5 +30,5 @@ TodoDetail 컴포넌트에서 수정 버튼과 삭제 버튼을 분리하는 작
 기능이 작동하기 위해 필요한 세부 로직은 버튼 컴포넌트와 함께 분리하고, 컴포넌트 이름으로 핵심 기능은 알 수 있게 수정했습니다.  
 수정 전과 후가 가독성에 어떤 영향을 미치는지 궁금하네요. 피드백 좀 주실분 안계실까요?
 
-커밋해시: 4c9ff863575662c8b29c9bb0097afb60d1981044  
-커밋해시: 595dc1ab6484e9de45d2ae7922bb8cb71f972574
+커밋해시: 4c9ff86[https://github.com/silveriron/wanted-pre-onboarding-challenge-fe-1/commit/4c9ff863575662c8b29c9bb0097afb60d1981044]
+커밋해시: 595dc1a[https://github.com/silveriron/wanted-pre-onboarding-challenge-fe-1/commit/595dc1ab6484e9de45d2ae7922bb8cb71f972574]
