@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
-import { IconButton, Typography } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Typography } from "@mui/material";
+import { useParams } from "react-router-dom";
 
-import { useDeleteTodo, useGetTodo } from "../../hooks/todos/useTodoQuery";
+import { useGetTodo } from "../../hooks/todos/useTodoQuery";
+import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
 
 const Main = styled.main`
@@ -20,19 +20,8 @@ const ButtonDiv = styled.div`
 `;
 
 const TodoDetail = () => {
-  const navigate = useNavigate();
   const { id } = useParams();
   const { data: todo, isSuccess } = useGetTodo(id!);
-  const deleteTodo = useDeleteTodo();
-
-  const onClickDelete = async () => {
-    const updateConfirm = window.confirm("정말 삭제하시겠습니까?");
-    if (!updateConfirm || !todo) {
-      return;
-    }
-    deleteTodo.mutate(todo.id);
-    navigate("/todo");
-  };
 
   return (
     <Main>
@@ -47,12 +36,10 @@ const TodoDetail = () => {
       >
         {isSuccess && todo.title}
       </Typography>
-      
+
       <ButtonDiv>
-        { isSuccess && <EditButton todo={todo}/>}
-        <IconButton color="primary" onClick={onClickDelete}>
-          <DeleteIcon />
-        </IconButton>
+        {isSuccess && <EditButton todo={todo} />}
+        {isSuccess && <DeleteButton todo={todo} />}
       </ButtonDiv>
       <Typography variant="body1" sx={{ textAlign: "center" }}>
         {isSuccess && todo.content}
