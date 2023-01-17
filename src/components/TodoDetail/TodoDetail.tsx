@@ -36,7 +36,6 @@ const TodoDetail = () => {
       >
         {isSuccess && todo.title}
       </Typography>
-
       <ButtonDiv>
         {isSuccess && <EditButton todo={todo} />}
         {isSuccess && <DeleteButton todo={todo} />}

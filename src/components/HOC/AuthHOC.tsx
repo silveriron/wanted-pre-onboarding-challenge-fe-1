@@ -2,15 +2,20 @@ import { ComponentType, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getToken } from "../../lib/api/getToken";
 
-const AuthHOC = (Component: ComponentType) => {
+const AuthHOC = (
+  Component: ComponentType,
+  authFn: () => boolean,
+  message: string,
+  path: string
+) => {
   const AuthCheck = () => {
     const navigate = useNavigate();
     const token = getToken();
 
     useEffect(() => {
-      if (!token) {
-        alert("로그인이 필요한 서비스입니다.");
-        navigate("/");
+      if (authFn()) {
+        alert(message);
+        navigate(path);
       }
     }, [navigate, token]);
 
