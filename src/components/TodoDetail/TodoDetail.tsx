@@ -1,12 +1,10 @@
 import styled from "@emotion/styled";
 import { IconButton, Typography } from "@mui/material";
-import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import AddTodo from "../AddTodo/AddTodo";
 import { useDeleteTodo, useGetTodo } from "../../hooks/todos/useTodoQuery";
+import EditButton from "./EditButton";
 
 const Main = styled.main`
   overflow-y: scroll;
@@ -24,13 +22,8 @@ const ButtonDiv = styled.div`
 const TodoDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [isAddModal, setIsAddModal] = useState(false);
   const { data: todo, isSuccess } = useGetTodo(id!);
   const deleteTodo = useDeleteTodo();
-
-  const onClickEdit = () => {
-    setIsAddModal(true);
-  };
 
   const onClickDelete = async () => {
     const updateConfirm = window.confirm("정말 삭제하시겠습니까?");
@@ -54,15 +47,9 @@ const TodoDetail = () => {
       >
         {isSuccess && todo.title}
       </Typography>
-      <AddTodo
-        isAddModal={isAddModal}
-        setIsAddModal={setIsAddModal}
-        todo={todo}
-      />
+      
       <ButtonDiv>
-        <IconButton color="primary" onClick={onClickEdit}>
-          <EditIcon />
-        </IconButton>
+        { isSuccess && <EditButton todo={todo}/>}
         <IconButton color="primary" onClick={onClickDelete}>
           <DeleteIcon />
         </IconButton>
