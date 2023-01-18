@@ -1,10 +1,9 @@
 import styled from "@emotion/styled";
 import { Typography, Button, TextField } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
 import React from "react";
 
 import useInput from "../../hooks/useInput";
-import { validEmail, validPassword } from "../../lib/valid";
+import { validEmail, validPassword } from "../../lib/utils/valid";
 import useAuth from "../../hooks/auth/useAuth";
 
 const Form = styled.form`
@@ -18,14 +17,15 @@ const Form = styled.form`
 const LoginForm = () => {
   const [email, onChangeEmail, isValidEmail] = useInput(validEmail);
   const [password, onChangePassword, isValidPassword] = useInput(validPassword);
-  const [isError, isSignup, signupHandler, loginHandler, formChangeHandler] = useAuth({email, password})
+  const [isError, isSignup, signupHandler, loginHandler, formChangeHandler] =
+    useAuth({ email, password });
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSignup) {
-      signupHandler()
+      signupHandler();
     } else {
-      loginHandler()
+      loginHandler();
     }
   };
 
@@ -62,9 +62,7 @@ const LoginForm = () => {
       )}
       {isError && (
         <Typography variant="body1" sx={{ color: "red", textAlign: "center" }}>
-          {isSignup
-            ? "이미 가입한 이메일입니다."
-            : "입력 정보를 확인해주세요."}
+          {isSignup ? "이미 가입한 이메일입니다." : "입력 정보를 확인해주세요."}
         </Typography>
       )}
       <Button disabled={!isValidEmail || !isValidPassword} type="submit">

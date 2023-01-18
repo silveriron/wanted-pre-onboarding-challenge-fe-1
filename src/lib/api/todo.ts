@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { errorHandler } from "./errorHandler";
 import { API_URL, AUTH_KEY } from "../../constant/api";
-import { getToken } from "./getToken";
+import { getToken } from "../utils/getToken";
 import { Todo } from "../../types/todo";
 
 export const createTodo = async (title: string, content: string) => {

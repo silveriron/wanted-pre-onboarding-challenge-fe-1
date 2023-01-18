@@ -1,6 +1,6 @@
 import { ComponentType, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getToken } from "../../lib/api/getToken";
+import { getToken } from "../../lib/utils/getToken";
 
 const AuthHOC = (
   Component: ComponentType,

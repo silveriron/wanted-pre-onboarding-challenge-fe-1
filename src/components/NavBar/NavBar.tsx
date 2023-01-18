@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { IconButton } from "@mui/material";
-import { removeToken } from "../../lib/api/getToken";
+import { removeToken } from "../../lib/utils/getToken";
 
 const Nav = styled.nav`
   position: absolute;
